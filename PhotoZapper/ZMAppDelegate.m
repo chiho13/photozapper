@@ -7,14 +7,34 @@
 //
 
 #import "ZMAppDelegate.h"
+#import "ZMPhotosViewController.h"
+#import <SimpleAuth/SimpleAuth.h>
 
 @implementation ZMAppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    SimpleAuth.configuration[@"instagram"] = @{
+       @"client_id" : @"f19ebd38230d47dea87d7c0828842bfd",
+       SimpleAuthRedirectURIKey : @"photobombers://auth.instagram"
+       };
+    
+    
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     // Override point for customization after application launch.
+    
+    ZMPhotosViewController * photosViewController = [[ZMPhotosViewController alloc] init];
+    UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:photosViewController]; //nest the navigation controller in the photosViewController
+    
+    UINavigationBar *navigationBar =  navigationController.navigationBar;
+    navigationBar.barTintColor = [UIColor colorWithRed:242.0/255.0 green:122.0/255.0 blue:87.0/255.0 alpha:1.0];
+    navigationBar.barStyle= UIBarStyleBlackOpaque;
+    
+    self.window.rootViewController = navigationController;
+    
+    // Override point for customization after application launch.
     self.window.backgroundColor = [UIColor whiteColor];
+    
     [self.window makeKeyAndVisible];
     return YES;
 }
